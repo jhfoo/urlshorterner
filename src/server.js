@@ -36,6 +36,29 @@ server.get('/:name', (req, res, next) => {
 
 })
 
+server.get('/list/:host', (req, res, next) => {
+  // NOTE: needs to change
+  if (req.query.p === 'peekaboo') {
+    db.all('select * from main where host = ?', req.params.host, (err, recs) => {
+      if (err) {
+        console.error(err)
+        res.send(err.message)
+      } else {
+        let out = ''
+        out = recs.reduce((final, item) => {
+          return final + item.key + ' = ' + item.url + '\n' 
+        }, '')
+        res.set('content-type', 'text/plain')
+        res.send(out)
+      }
+      next(false)
+    })
+  } else {
+    res.send(401, 'Unauthorised command')
+    next(false)
+  }
+})
+
 server.get('/set/:host/:name', (req, res, next) => {
   console.log('Setting shortener')
   console.log(req.params.host)
