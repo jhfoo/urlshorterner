@@ -10,5 +10,6 @@ module.exports = {
         }
     },
     ENV_PRODUCTION: 'production',
-    ENV_DEVELOPMENT: 'development'
+    ENV_DEVELOPMENT: 'development',
+    TIMEOUT_FORCESTOP: 3000
 }
